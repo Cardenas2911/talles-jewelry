@@ -2,6 +2,7 @@ import React from 'react';
 import { useStore } from '@nanostores/react';
 import { favoriteItems } from '../../store/favorites';
 import ProductCard from './ProductCard';
+import { resolvePath } from '../../utils/paths';
 
 export default function FavoritesView() {
     const $favorites = useStore(favoriteItems);
@@ -16,7 +17,7 @@ export default function FavoritesView() {
                     Guarda tus joyas favoritas aquí para no perderlas de vista.
                 </p>
                 <a
-                    href="/tienda"
+                    href={resolvePath('/tienda')}
                     className="bg-[#d4af37] text-black px-8 py-3 rounded-full font-medium tracking-wide hover:bg-[#b08d29] transition-colors"
                 >
                     Explorar Colección

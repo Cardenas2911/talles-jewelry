@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { isFavorite, toggleFavorite, favoriteItems } from '../../store/favorites';
 import { addCartItem, setIsCartOpen } from '../../store/cart';
+import { resolvePath } from '../../utils/paths';
 
 interface Product {
     id: string;
@@ -89,13 +90,13 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     return (
         <article
-            className="group relative flex flex-col h-full bg-transparent transition-all duration-300"
+            className="group relative flex flex-col h-full bg-transparent transition-all duration-300 animate-on-scroll"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* 1. THE VITRINE (Image Area) */}
             <div className="relative aspect-[4/5] overflow-hidden bg-[#111111] border border-transparent group-hover:border-[#d4af37] transition-colors duration-300">
-                <a href={`/producto/${product.handle}`} className="block w-full h-full relative">
+                <a href={resolvePath(`/producto/${product.handle}`)} className="block w-full h-full relative">
                     {/* Primary Image */}
                     <img
                         src={firstImage}
@@ -155,7 +156,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
                 {/* CTA Overlay (Desktop: Slide Up / Mobile: Always Visible icon?) */}
                 {/* Implementing Desktop Slide-up Button as requested */}
-                <div className={`absolute bottom-0 left-0 w-full p-4 z-20 transition-transform duration-500 ease-out hidden md:block ${isHovered ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className={`absolute bottom-0 left-0 w-full p-4 z-20 transition-transform duration-500 ease-out hidden lg:block ${isHovered ? 'translate-y-0' : 'translate-y-full'}`}>
                     <button
                         onClick={handleQuickAdd}
                         disabled={adding}
@@ -183,7 +184,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
                 {/* Title */}
                 <h3 className="text-[#FAFAF5] font-sans font-semibold text-sm md:text-[15px] leading-tight tracking-wide line-clamp-2 h-[2.4em] mb-1">
-                    <a href={`/producto/${product.handle}`} className="hover:text-[#d4af37] transition-colors">
+                    <a href={resolvePath(`/producto/${product.handle}`)} className="hover:text-[#d4af37] transition-colors">
                         {product.title}
                     </a>
                 </h3>
@@ -205,7 +206,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </div>
 
                 {/* Mobile CTA (Always visible button/icon or simplified) */}
-                <div className="md:hidden mt-3">
+                <div className="lg:hidden mt-3">
                     <button
                         onClick={handleQuickAdd}
                         className="w-full py-2.5 border border-[#d4af37]/50 text-[#d4af37] text-[10px] uppercase font-bold tracking-widest flex items-center justify-center gap-2 active:bg-[#d4af37] active:text-black transition-colors"

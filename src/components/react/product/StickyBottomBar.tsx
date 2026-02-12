@@ -56,7 +56,7 @@ export default function StickyBottomBar({ product, selectedVariant, featuredImag
     if (!isVisible) return null;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#111] border-t border-[#d4af37]/30 p-4 md:hidden animate-slide-up shadow-2xl">
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#111] border-t border-[#d4af37]/30 p-4 lg:hidden animate-slide-up shadow-2xl">
             <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col">
                     <span className="text-white text-xs font-bold truncate max-w-[150px]">{product.title}</span>

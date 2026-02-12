@@ -27,7 +27,7 @@ export default function ProductPage({ product }: ProductPageProps) {
     const featuredImage = images[0]?.url;
 
     return (
-        <div className="pb-32"> {/* Padding for sticky bar */}
+        <div className="pb-32 lg:pb-0"> {/* Padding for sticky bar */}
             {/* Main Grid: Gallery + Buy Box */}
             <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-16 items-start">
 

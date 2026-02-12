@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { addCartItem, setIsCartOpen } from '../../../store/cart';
 import { toggleFavorite } from '../../../store/favorites';
+import { resolvePath } from '../../../utils/paths';
 
 interface WishlistCardProps {
     item: {
@@ -56,7 +57,7 @@ export default function WishlistCard({ item }: WishlistCardProps) {
             </button>
 
             {/* Image */}
-            <a href={`/producto/${item.handle}`} className="aspect-[4/5] overflow-hidden relative block bg-[#050505]">
+            <a href={resolvePath(`/producto/${item.handle}`)} className="aspect-[4/5] overflow-hidden relative block bg-[#050505]">
                 <img
                     src={item.image}
                     alt={item.title}
@@ -77,7 +78,7 @@ export default function WishlistCard({ item }: WishlistCardProps) {
 
                 {/* Title */}
                 <h3 className="text-[#FAFAF5] font-serif text-lg leading-tight line-clamp-2">
-                    <a href={`/producto/${item.handle}`}>{item.title}</a>
+                    <a href={resolvePath(`/producto/${item.handle}`)}>{item.title}</a>
                 </h3>
 
                 {/* Price */}
@@ -92,8 +93,8 @@ export default function WishlistCard({ item }: WishlistCardProps) {
                     onClick={handleMoveToBag}
                     disabled={moving || !isAvailable}
                     className={`w-full py-3 mt-2 border text-[10px] uppercase font-bold tracking-[2px] transition-all flex items-center justify-center gap-2 ${isAvailable
-                            ? 'border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37] hover:text-black'
-                            : 'border-white/10 text-gray-500 cursor-not-allowed'
+                        ? 'border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37] hover:text-black'
+                        : 'border-white/10 text-gray-500 cursor-not-allowed'
                         }`}
                 >
                     {moving ? 'Moviendo...' : isAvailable ? 'Mover a la Bolsa' : 'Avísame'}

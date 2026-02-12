@@ -1,6 +1,7 @@
 ---
 import DesktopHeader from "./react/DesktopHeader";
 import { isCartOpen } from "../store/cart";
+import { resolvePath } from "../utils/paths";
 const SHOP_DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
 ---
 
@@ -27,37 +28,37 @@ const SHOP_DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
     <div class="flex flex-col items-center justify-center flex-1 gap-8">
       <nav class="flex flex-col items-center gap-6">
         <a
-          href="/"
+          href={resolvePath("/")}
           class="text-2xl font-serif text-[#FAFAF5] hover:text-[#d4af37] transition-colors"
           >Inicio</a
         >
         <a
-          href="/tienda"
+          href={resolvePath("/tienda")}
           class="text-2xl font-serif text-[#FAFAF5] hover:text-[#d4af37] transition-colors"
           >Tienda</a
         >
         <a
-          href="/mujer"
+          href={resolvePath("/mujer")}
           class="text-2xl font-serif text-[#FAFAF5] hover:text-[#d4af37] transition-colors"
           >Mujer</a
         >
         <a
-          href="/hombre"
+          href={resolvePath("/hombre")}
           class="text-2xl font-serif text-[#FAFAF5] hover:text-[#d4af37] transition-colors"
           >Hombre</a
         >
         <a
-          href="/ninos"
+          href={resolvePath("/ninos")}
           class="text-2xl font-serif text-[#FAFAF5] hover:text-[#d4af37] transition-colors"
           >Niños</a
         >
         <a
-          href="/coleccion/religiosa"
+          href={resolvePath("/coleccion/religiosa")}
           class="text-2xl font-serif text-[#FAFAF5] hover:text-[#d4af37] transition-colors"
           >Religiosa</a
         >
         <a
-          href="/servicios/vender-oro"
+          href={resolvePath("/servicios/vender-oro")}
           class="text-2xl font-serif text-[#d4af37] hover:text-white transition-colors"
           >Vender Oro</a
         >

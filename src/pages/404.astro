@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { resolvePath } from "../utils/paths";
 
 const seo = {
   title: "Página no encontrada | DTalles Jewelry",
@@ -15,7 +16,7 @@ const seo = {
       Parece que te has perdido en nuestra colección.
     </p>
     <a
-      href="/"
+      href={resolvePath("/")}
       class="bg-black text-white px-8 py-3 rounded hover:bg-gray-800 transition"
       >Volver al Inicio</a
     >

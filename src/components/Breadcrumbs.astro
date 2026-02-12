@@ -1,4 +1,6 @@
 ---
+import { resolvePath } from "../utils/paths";
+
 interface Props {
     items: {
         label: string;
@@ -46,7 +48,7 @@ const schema = {
                             </span>
                         ) : (
                             <a
-                                href={item.href}
+                                href={item.href ? resolvePath(item.href) : "#"}
                                 class="text-[#A0A0A0] hover:text-white transition-colors decoration-[#d4af37] hover:underline underline-offset-4"
                             >
                                 {item.label}

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import ProductCard from '../react/ProductCard';
+import { resolvePath } from '../../utils/paths';
 
 interface BestSellersProps {
     products: any[];
@@ -65,7 +66,7 @@ export default function BestSellers({ products }: BestSellersProps) {
 
                 {/* View More Card */}
                 <div className="min-w-[200px] snap-start flex items-center justify-center">
-                    <a href="/tienda" className="group flex flex-col items-center gap-4 text-center">
+                    <a href={resolvePath('/tienda')} className="group flex flex-col items-center gap-4 text-center">
                         <div className="w-16 h-16 rounded-full border border-[#d4af37] flex items-center justify-center group-hover:bg-[#d4af37] transition-colors">
                             <span className="material-symbols-outlined text-[#d4af37] group-hover:text-black transition-colors">arrow_forward</span>
                         </div>

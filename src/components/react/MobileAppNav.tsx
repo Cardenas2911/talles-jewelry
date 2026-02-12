@@ -4,13 +4,15 @@ import { isCartOpen, setIsCartOpen, cartItems } from '../../store/cart';
 import { favoriteItems } from '../../store/favorites';
 import { setIsSearchOpen } from '../../store/search';
 
+import { resolvePath } from '../../utils/paths';
+
 // Mock Data for Categories (Tabs)
 const CATEGORIES = {
     HOMBRE: [
-        { id: 'h1', title: 'Cadenas de Oro', image: 'https://dtallesjewelry.com/images/cat-cuban.jpg', href: '/hombre/cadenas' },
-        { id: 'h2', title: 'Esclavas de Oro', image: 'https://dtallesjewelry.com/images/cat-bracelet.jpg', href: '/hombre/esclavas' },
-        { id: 'h3', title: 'Anillos', image: 'https://dtallesjewelry.com/images/cat-rings.jpg', href: '/hombre/anillos' },
-        { id: 'h4', title: 'Dijes / Colgantes', image: 'https://dtallesjewelry.com/images/cat-id.jpg', href: '/hombre/dijes' },
+        { id: 'h1', title: 'Cadenas de Oro', image: 'https://dtallesjewelry.com/images/cat-cuban.jpg', href: resolvePath('/hombre/cadenas') },
+        { id: 'h2', title: 'Esclavas de Oro', image: 'https://dtallesjewelry.com/images/cat-bracelet.jpg', href: resolvePath('/hombre/esclavas') },
+        { id: 'h3', title: 'Anillos', image: 'https://dtallesjewelry.com/images/cat-rings.jpg', href: resolvePath('/hombre/anillos') },
+        { id: 'h4', title: 'Dijes / Colgantes', image: 'https://dtallesjewelry.com/images/cat-id.jpg', href: resolvePath('/hombre/dijes') },
     ],
     MUJER: [
         { id: 'm1', title: 'Collares / Cadenas', image: 'https://dtallesjewelry.com/images/cat-necklace.jpg', href: '/mujer/collares' },
@@ -70,12 +72,12 @@ export default function MobileAppNav() {
 
 
     return (
-        <div className="md:hidden">
+        <div className="lg:hidden">
             {/* 1. TOP BAR (Sticky) */}
             <header className={`fixed top-0 left-0 w-full z-40 bg-[#050505]/90 backdrop-blur-md border-b border-white/5 h-16 flex items-center justify-between px-6 transition-transform duration-300 ${isTopBarVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-                <a href="/" className="block">
+                <a href={resolvePath('/')} className="block">
                     <img
-                        src="/images/Logo.webp"
+                        src={resolvePath('/images/Logo.webp')}
                         alt="Dtalles Jewelry"
                         className="h-12 w-auto object-contain"
                     />
@@ -98,7 +100,7 @@ export default function MobileAppNav() {
             <nav className="fixed bottom-0 left-0 w-full z-50 bg-[#050505]/95 backdrop-blur-xl border-t border-[#d4af37]/30 h-[65px] px-2 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
                 <div className="grid grid-cols-5 h-full items-center">
                     {/* Home */}
-                    <a href="/" className="flex flex-col items-center justify-center gap-1 group">
+                    <a href={resolvePath('/')} className="flex flex-col items-center justify-center gap-1 group">
                         <span className="material-symbols-outlined text-[#A0A0A0] group-hover:text-[#FAFAF5] transition-colors text-[24px]">home</span>
                         <span className="text-[9px] text-[#A0A0A0] font-medium tracking-wide">Inicio</span>
                     </a>
@@ -120,14 +122,14 @@ export default function MobileAppNav() {
                     </div>
 
                     {/* Wishlist */}
-                    <a href="/favoritos" className="flex flex-col items-center justify-center gap-1 group relative">
+                    <a href={resolvePath('/favoritos')} className="flex flex-col items-center justify-center gap-1 group relative">
                         <span className="material-symbols-outlined text-[#A0A0A0] group-hover:text-[#FAFAF5] transition-colors text-[24px]">favorite</span>
                         <span className="text-[9px] text-[#A0A0A0] font-medium tracking-wide">Favoritos</span>
                         {favCount > 0 && <span className="absolute top-1 right-3 w-1.5 h-1.5 bg-[#d4af37] rounded-full"></span>}
                     </a>
 
                     {/* Profile */}
-                    <a href="/account/login" className="flex flex-col items-center justify-center gap-1 group">
+                    <a href={resolvePath('/account/login')} className="flex flex-col items-center justify-center gap-1 group">
                         <span className="material-symbols-outlined text-[#A0A0A0] group-hover:text-[#FAFAF5] transition-colors text-[24px]">person</span>
                         <span className="text-[9px] text-[#A0A0A0] font-medium tracking-wide">Perfil</span>
                     </a>
@@ -197,7 +199,7 @@ export default function MobileAppNav() {
                             ))}
                             {/* Static Links */}
                             <li>
-                                <a href="/tienda" className="flex items-center gap-4 px-6 py-4 hover:bg-white/5 transition-colors">
+                                <a href={resolvePath('/tienda')} className="flex items-center gap-4 px-6 py-4 hover:bg-white/5 transition-colors">
                                     <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 text-[#d4af37]">
                                         <span className="material-symbols-outlined text-lg">storefront</span>
                                     </div>
@@ -210,7 +212,7 @@ export default function MobileAppNav() {
 
                     {/* Drawer Footer */}
                     <div className="absolute bottom-0 left-0 w-full p-6 bg-[#0a0a0a] border-t border-white/5 space-y-3 z-10">
-                        <a href="/rastrear" className="flex items-center gap-3 text-xs text-[#A0A0A0] uppercase tracking-widest hover:text-white">
+                        <a href={resolvePath('/rastrear')} className="flex items-center gap-3 text-xs text-[#A0A0A0] uppercase tracking-widest hover:text-white">
                             <span className="material-symbols-outlined text-sm">local_shipping</span>
                             Rastrear Pedido
                         </a>
@@ -218,7 +220,7 @@ export default function MobileAppNav() {
                             <span className="material-symbols-outlined text-sm">chat</span>
                             WhatsApp Oficial
                         </a>
-                        <a href="/servicios/vender-oro" className="flex items-center gap-3 text-xs text-[#d4af37] uppercase tracking-widest font-bold">
+                        <a href={resolvePath('/servicios/vender-oro')} className="flex items-center gap-3 text-xs text-[#d4af37] uppercase tracking-widest font-bold">
                             <span className="material-symbols-outlined text-sm">currency_exchange</span>
                             Vender Oro
                         </a>

@@ -3,47 +3,48 @@ import PredictiveSearch from './PredictiveSearch';
 import { useStore } from '@nanostores/react';
 import { isCartOpen, setIsCartOpen, cartItems } from '../../store/cart';
 import { favoriteItems } from '../../store/favorites';
+import { resolvePath } from '../../utils/paths';
 
 // Navigation Data
 const NAV_ITEMS = [
     {
-        label: 'Hombre', href: '/hombre',
+        label: 'Hombre', href: resolvePath('/hombre'),
         categories: ['Cadenas', 'Esclavas', 'Anillos', 'Dijes'],
         purity: ['Oro 10k (Resistencia)', 'Oro 14k (Estándar)', 'Oro 18k (Exclusivo)'],
         styles: ['Cuban Links', 'Soga (Rope)', 'Figaro', 'Tenis'],
-        image: '/images/menu-hombre.webp',
+        image: resolvePath('/images/menu-hombre.webp'),
         alt: 'Cadena Cubana de Oro 14k - Joyería Exclusiva para Hombre',
         promoText: 'EL BRILLO CLÁSICO'
     },
     {
-        label: 'Mujer', href: '/mujer',
+        label: 'Mujer', href: resolvePath('/mujer'),
         categories: ['Collares', 'Aretes', 'Anillos', 'Tobilleras'],
         purity: ['Oro 10k', 'Oro 14k', 'Oro 18k'],
         styles: ['Gargantillas', 'Huggies', 'Solitarios', 'Sets'],
-        image: '/images/menu-mujer.webp',
+        image: resolvePath('/images/menu-mujer.webp'),
         alt: 'Joyería Fina de Oro para Mujer - Aretes y Collares',
         promoText: 'ELEGANCIA PURA'
     },
     {
-        label: 'Religiosos', href: '/coleccion/religiosa',
+        label: 'Religiosos', href: resolvePath('/coleccion/religiosa'),
         categories: ['Cruces', 'Medallas', 'Rosarios', 'Juegos'],
         purity: ['Oro 10k', 'Oro 14k'],
         styles: ['San Judas', 'Virgen Guadalupe', 'Cristo', 'Ángeles'],
-        image: '/images/menu-religiosos.webp',
+        image: resolvePath('/images/menu-religiosos.webp'),
         alt: 'Medallas y Cruces de Oro 14k - Colección Religiosa',
         promoText: 'DEVOCIÓN EN ORO'
     },
     {
-        label: 'Regalos', href: '/guia-regalos',
+        label: 'Regalos', href: resolvePath('/guia-regalos'),
         categories: ['Para Ella', 'Para Él', 'Aniversario', 'Cumpleaños'],
         purity: ['Oro 10k', 'Oro 14k'],
         styles: ['Personalizados', 'Iniciales', 'Corazones', 'Infinito'],
-        image: '/images/menu-regalos.webp',
+        image: resolvePath('/images/menu-regalos.webp'),
         alt: 'Regalos de Joyería en Oro - Detalles Especiales y Aniversarios',
         promoText: 'MOMENTOS DE ORO'
     },
     {
-        label: 'Vender Oro', href: '/servicios/vender-oro',
+        label: 'Vender Oro', href: resolvePath('/servicios/vender-oro'),
         highlight: true // Special style
     }
 ];
@@ -105,7 +106,7 @@ export default function DesktopHeader() {
 
     return (
         <header
-            className={`hidden md:block fixed top-0 w-full z-50 transition-all duration-500 ease-in-out transform 
+            className={`hidden lg:block fixed top-0 w-full z-50 transition-all duration-500 ease-in-out transform 
                 ${isVisible ? 'translate-y-0' : '-translate-y-full'}
                 ${isScrolled ? 'bg-[#050505]/95 backdrop-blur-md shadow-[0_1px_0_rgba(212,175,55,0.2)]' : 'bg-[#050505] shadow-none'}
             `}
@@ -114,9 +115,9 @@ export default function DesktopHeader() {
             <div className="max-w-[1920px] mx-auto px-12 h-24 flex items-center justify-between relative z-50">
                 {/* 1. Left: Logo */}
                 <div className="w-1/4 flex items-center">
-                    <a href="/" className="group block">
+                    <a href={resolvePath('/')} className="group block">
                         <img
-                            src="/images/Logo.webp"
+                            src={resolvePath('/images/Logo.webp')}
                             alt="Dtalles Jewelry - Joyería de Oro en Miami"
                             className="h-20 md:h-24 w-auto object-contain"
                         />
@@ -156,7 +157,7 @@ export default function DesktopHeader() {
                     <PredictiveSearch />
 
                     {/* Favorites */}
-                    <a href="/favoritos" className="text-[#FAFAF5] hover:text-[#d4af37] transition-colors relative" aria-label="Favoritos">
+                    <a href={resolvePath('/favoritos')} className="text-[#FAFAF5] hover:text-[#d4af37] transition-colors relative" aria-label="Favoritos">
                         <span className="material-symbols-outlined text-[24px]">favorite</span>
                         {favCount > 0 && (
                             <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-[#d4af37] text-[8px] font-bold text-black">
@@ -166,7 +167,7 @@ export default function DesktopHeader() {
                     </a>
 
                     {/* Account */}
-                    <a href="/account/login" className="text-[#FAFAF5] hover:text-[#d4af37] transition-colors" aria-label="Cuenta">
+                    <a href={resolvePath('/account/login')} className="text-[#FAFAF5] hover:text-[#d4af37] transition-colors" aria-label="Cuenta">
                         <span className="material-symbols-outlined text-[24px]">person</span>
                     </a>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { resolvePath } from '../../../utils/paths';
 
 export default function EmptyState() {
     return (
@@ -17,13 +18,13 @@ export default function EmptyState() {
 
             <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
                 <a
-                    href="/hombre"
+                    href={resolvePath('/hombre')}
                     className="flex-1 py-4 border border-[#d4af37] text-[#d4af37] uppercase tracking-[2px] text-xs font-bold hover:bg-[#d4af37] hover:text-black transition-all text-center"
                 >
                     Ver Joyas Hombre
                 </a>
                 <a
-                    href="/mujer"
+                    href={resolvePath('/mujer')}
                     className="flex-1 py-4 bg-[#d4af37] text-black border border-[#d4af37] uppercase tracking-[2px] text-xs font-bold hover:bg-white hover:border-white transition-all text-center"
                 >
                     Ver Joyas Mujer

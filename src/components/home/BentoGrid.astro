@@ -1,5 +1,5 @@
 ---
-
+import { resolvePath } from "../../utils/paths";
 ---
 
 <section class="max-w-7xl mx-auto px-4 md:px-6 py-20">
@@ -8,11 +8,12 @@
     >
         {/* Large Item: Hombre (Left) */}
         <a
-            href="/hombre"
-            class="group relative overflow-hidden h-[400px] md:h-full md:row-span-2 rounded-sm block"
+            href={resolvePath("/hombre")}
+            class="group relative overflow-hidden h-[400px] md:h-full md:row-span-2 rounded-sm block animate-on-scroll"
         >
             <div
-                class="absolute inset-0 bg-[url('/images/menu-hombre.webp')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                style={`background-image: url('${resolvePath("/images/menu-hombre.webp")}')`}
             >
             </div>
             <div
@@ -45,11 +46,12 @@
         <div class="flex flex-col gap-4 md:gap-6 h-full">
             {/* Top Right: Religiosa */}
             <a
-                href="/coleccion/religiosa"
-                class="group relative overflow-hidden h-[300px] md:h-1/2 rounded-sm block"
+                href={resolvePath("/coleccion/religiosa")}
+                class="group relative overflow-hidden h-[300px] md:h-1/2 rounded-sm block animate-on-scroll delay-100"
             >
                 <div
-                    class="absolute inset-0 bg-[url('/images/menu-religiosos.webp')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    style={`background-image: url('${resolvePath("/images/menu-religiosos.webp")}')`}
                 >
                 </div>
                 <div
@@ -73,11 +75,12 @@
 
             {/* Bottom Right: Mujer/Regalos */}
             <a
-                href="/mujer"
-                class="group relative overflow-hidden h-[300px] md:h-1/2 rounded-sm block"
+                href={resolvePath("/mujer")}
+                class="group relative overflow-hidden h-[300px] md:h-1/2 rounded-sm block animate-on-scroll delay-200"
             >
                 <div
-                    class="absolute inset-0 bg-[url('/images/menu-regalos.webp')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    style={`background-image: url('${resolvePath("/images/menu-regalos.webp")}')`}
                 >
                 </div>
                 <div
