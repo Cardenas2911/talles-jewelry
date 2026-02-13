@@ -35,6 +35,7 @@ export const PRODUCT_FRAGMENT = gql`
       edges {
         node {
         id
+        sku
         quantityAvailable
       }
     }
@@ -92,6 +93,7 @@ export const GET_PRODUCT_DETAILS = gql`
           node {
             id
             title
+            sku
             availableForSale
             quantityAvailable
             price {
@@ -114,17 +116,169 @@ export const GET_PRODUCT_DETAILS = gql`
         value
         type
       }
+      # Try 'category' field (Newer API)
+      category {
+        name
+      }
+      # Dump ALL metafields to find keys
+      allMetafields: metafields(first: 50) {
+        edges {
+          node {
+            namespace
+            key
+            value
+          }
+        }
+      }
+      # Candidates (Keep them just in case)
       material: metafield(namespace: "custom", key: "material") {
         value
         type
       }
-      origen: metafield(namespace: "custom", key: "origen") {
+      # Shopify Taxonomy Metafields (Metaobjects)
+      shopifyColor: metafield(namespace: "shopify", key: "color-pattern") {
+        value
+        reference {
+          ... on Metaobject {
+            fields {
+              key
+              value
+            }
+          }
+        }
+        references(first: 10) {
+          nodes {
+            ... on Metaobject {
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+      }
+      shopifyAgeGroup: metafield(namespace: "shopify", key: "age-group") {
+        value
+        reference {
+          ... on Metaobject {
+            fields {
+              key
+              value
+            }
+          }
+        }
+        references(first: 10) {
+          nodes {
+            ... on Metaobject {
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+      }
+      shopifyGender: metafield(namespace: "shopify", key: "target-gender") {
+        value
+        reference {
+          ... on Metaobject {
+            fields {
+              key
+              value
+            }
+          }
+        }
+        references(first: 10) {
+          nodes {
+            ... on Metaobject {
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+      }
+      shopifyMaterial: metafield(namespace: "shopify", key: "jewelry-material") {
+        value
+        reference {
+          ... on Metaobject {
+            fields {
+              key
+              value
+            }
+          }
+        }
+        references(first: 10) {
+          nodes {
+            ... on Metaobject {
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+      }
+      shopifyJewelryType: metafield(namespace: "shopify", key: "jewelry-type") {
+        value
+        reference {
+          ... on Metaobject {
+            fields {
+              key
+              value
+            }
+          }
+        }
+        references(first: 10) {
+          nodes {
+            ... on Metaobject {
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+      }
+      shopifyNecklaceDesign: metafield(namespace: "shopify", key: "necklace-design") {
+        value
+        reference {
+          ... on Metaobject {
+            fields {
+              key
+              value
+            }
+          }
+        }
+        references(first: 10) {
+          nodes {
+            ... on Metaobject {
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+      }
+      
+      # Legacy/Custom Candidates (Fallback)
+      material: metafield(namespace: "custom", key: "material") {
         value
         type
       }
       videoUrl: metafield(namespace: "custom", key: "video_url") {
         value
         type
+      }
+      collections(first: 5) {
+        edges {
+          node {
+            title
+            handle
+          }
+        }
       }
     }
   }

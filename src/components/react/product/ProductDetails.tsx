@@ -5,8 +5,18 @@ interface ProductDetailsProps {
         material?: string;
         weight?: string;
         width?: string;
-        origin?: string;
         descriptionHtml: string;
+        // New Fields
+        vendor?: string;
+        tags?: string[];
+        productType?: string;
+        collections?: string[];
+        // Taxonomy Extra Fields
+        color?: string;
+        ageGroup?: string;
+        gender?: string;
+        design?: string;
+        allMetafields?: any[];
     }
 }
 
@@ -33,32 +43,86 @@ export default function ProductDetails({ details }: ProductDetailsProps) {
                         <span className={`material-symbols-outlined transition-transform duration-300 ${openSection === 'specs' ? 'rotate-180 text-[#d4af37]' : 'text-gray-500'}`}>expand_more</span>
                     </button>
 
-                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openSection === 'specs' ? 'max-h-[500px] opacity-100 pb-6' : 'max-h-0 opacity-0'}`}>
-                        <div className="grid grid-cols-2 gap-y-4 gap-x-8 text-sm">
-                            <div className="flex flex-col">
-                                <span className="text-gray-500 text-xs uppercase mb-1">Material</span>
-                                <span className="text-white font-medium">{details.material || 'Oro 14k Garantizado'}</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-gray-500 text-xs uppercase mb-1">Peso Aprox.</span>
-                                <span className="text-white font-medium">{details.weight ? `${details.weight} g` : 'Variable según talla'}</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-gray-500 text-xs uppercase mb-1">Ancho</span>
-                                <span className="text-white font-medium">{details.width ? `${details.width} mm` : 'N/A'}</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-gray-500 text-xs uppercase mb-1">Origen</span>
-                                <span className="text-white font-medium">{details.origin || 'Italia / Miami'}</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-gray-500 text-xs uppercase mb-1">Cierre</span>
-                                <span className="text-white font-medium">Caja de Seguridad / Langosta</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-gray-500 text-xs uppercase mb-1">Garantía</span>
-                                <span className="text-white font-medium">De por vida en metal</span>
-                            </div>
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openSection === 'specs' ? 'max-h-[800px] opacity-100 pb-6' : 'max-h-0 opacity-0'}`}>
+                        <div className="grid grid-cols-2 gap-y-6 gap-x-8 text-sm">
+                            {details.vendor && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">PROVEEDOR</span>
+                                    <span className="text-white font-medium">{details.vendor}</span>
+                                </div>
+                            )}
+                            {details.collections && details.collections.length > 0 && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">COLECCIÓN</span>
+                                    <span className="text-white font-medium">
+                                        {details.collections.join(', ')}
+                                    </span>
+                                </div>
+                            )}
+                            {details.productType && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">CATEGORÍA</span>
+                                    <span className="text-white font-medium">{details.productType}</span>
+                                </div>
+                            )}
+                            {/* Taxonomy specific fields */}
+                            {details.design && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">DISEÑO</span>
+                                    <span className="text-white font-medium">{details.design}</span>
+                                </div>
+                            )}
+                            {details.color && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">COLOR</span>
+                                    <span className="text-white font-medium">{details.color}</span>
+                                </div>
+                            )}
+                            {details.gender && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">GÉNERO OBJETIVO</span>
+                                    <span className="text-white font-medium">{details.gender}</span>
+                                </div>
+                            )}
+                            {details.ageGroup && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">GRUPO DE EDAD</span>
+                                    <span className="text-white font-medium">{details.ageGroup}</span>
+                                </div>
+                            )}
+                            {details.material && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">MATERIAL</span>
+                                    <span className="text-white font-medium">{details.material}</span>
+                                </div>
+                            )}
+                            {details.weight && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">PESO APROX.</span>
+                                    <span className="text-white font-medium">{details.weight} g</span>
+                                </div>
+                            )}
+                            {details.width && (
+                                <div className="flex flex-col">
+                                    <span className="text-gray-500 text-xs uppercase mb-1">ANCHO</span>
+                                    <span className="text-white font-medium">{details.width} mm</span>
+                                </div>
+                            )}
+
+                            {/* Origin Removed as requested */}
+
+                            {details.tags && details.tags.length > 0 && (
+                                <div className="flex flex-col col-span-2">
+                                    <span className="text-gray-500 text-xs uppercase mb-2">ETIQUETAS</span>
+                                    <div className="flex flex-wrap gap-2">
+                                        {details.tags.map(tag => (
+                                            <span key={tag} className="px-2 py-1 bg-white/5 border border-white/10 rounded text-xs text-gray-300">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -98,6 +162,7 @@ export default function ProductDetails({ details }: ProductDetailsProps) {
                     <div dangerouslySetInnerHTML={{ __html: details.descriptionHtml }} />
                 </div>
             )}
+
         </div>
     );
 }

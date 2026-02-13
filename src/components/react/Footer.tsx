@@ -11,197 +11,211 @@ export default function Footer() {
 
     const currentYear = new Date().getFullYear();
 
-    // Payment Icons (Simple SVG placeholders or use a library if available)
-    // Using simple text for now or inline SVGs for cleaner look.
-
     return (
-        <footer className="bg-[#050505] text-[#FAFAF5] w-full pt-20 pb-10 border-t border-[#d4af37]/20 relative overflow-hidden font-sans">
+        <footer className="bg-[#050505] text-[#FAFAF5] w-full pt-24 pb-10 border-t border-[#d4af37]/20 relative overflow-hidden font-sans">
 
-            {/* JSON-LD Schema for Local SEO */}
-            <script type="application/ld+json" dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@type": "JewelryStore",
-                    "name": "Dtalles Jewelry",
-                    "image": "https://dtallesjewelry.com/logo.png", // Update with real logo URL
-                    "description": "Joyería fina en Miami especializada en Oro 14k, Cuban Links y piezas personalizadas.",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "streetAddress": "123 Jewelry Way", // Update with real address
-                        "addressLocality": "Miami",
-                        "addressRegion": "FL",
-                        "postalCode": "33132",
-                        "addressCountry": "US"
-                    },
-                    "priceRange": "$$",
-                    "openingHours": "Mo-Sa 10:00-19:00",
-                    "telephone": "+13051234567" // Update real phone
-                })
-            }} />
+            {/* Background Texture/Gradient (Subtle Luxury) */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent"></div>
 
-            <div className="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-20">
+            <div className="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-20 relative z-10">
 
-                {/* 1. Newsletter Section (Círculo Dorado) */}
-                <div className="max-w-2xl mx-auto text-center mb-24">
-                    <h2 className="text-[#d4af37] font-serif text-2xl md:text-3xl mb-3 tracking-wide">Únete al Círculo Dorado</h2>
-                    <p className="text-gray-400 text-sm mb-8 font-light">Acceso anticipado a piezas únicas y ofertas privadas en Miami.</p>
+                {/* 1. Newsletter Section (Minimalist & Elegant) */}
+                <div className="flex flex-col md:flex-row justify-between items-end border-b border-[#d4af37]/10 pb-16 mb-20 gap-10">
+                    <div className="max-w-xl">
+                        <span className="text-[#d4af37] font-bold text-xs uppercase tracking-[0.2em] mb-4 block">The Gold Circle</span>
+                        <h2 className="text-3xl md:text-5xl font-serif text-white mb-6 leading-tight">
+                            Únete a la lista exclusiva.
+                        </h2>
+                        <p className="text-gray-400 font-light text-sm md:text-base max-w-md leading-relaxed">
+                            Recibe acceso anticipado a nuevas colecciones, eventos privados en Miami y ofertas reservadas solo para miembros.
+                        </p>
+                    </div>
 
-                    <form className="flex flex-col items-center gap-4">
-                        <div className="relative w-full max-w-md">
+                    <form className="w-full md:max-w-md flex flex-col gap-4">
+                        <div className="relative group">
                             <input
                                 type="email"
                                 placeholder="Tu correo electrónico"
-                                className="w-full bg-transparent border-b border-[#d4af37]/50 py-3 text-[#FAFAF5] placeholder-gray-600 focus:outline-none focus:border-[#d4af37] transition-colors text-center font-light"
+                                className="w-full bg-transparent border-b border-gray-700 py-4 text-[#FAFAF5] placeholder-gray-600 focus:outline-none focus:border-[#d4af37] transition-all duration-500 text-lg font-light group-hover:border-gray-500"
                                 required
                             />
                             <button
                                 type="submit"
-                                className="absolute right-0 top-3 text-[#d4af37] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+                                className="absolute right-0 top-4 text-[#d4af37] hover:text-white transition-colors duration-300"
+                                aria-label="Suscribirse"
                             >
-                                Suscribirme
+                                <span className="material-symbols-outlined text-2xl transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
                             </button>
                         </div>
-
-                        {/* Ethical Checkbox */}
-                        <div className="flex items-start gap-2 mt-2">
+                        <div className="flex items-center gap-3">
                             <input
                                 type="checkbox"
                                 id="privacy"
-                                className="mt-1 w-3 h-3 border border-gray-600 rounded-sm bg-transparent accent-[#d4af37] cursor-pointer"
+                                className="w-4 h-4 rounded-sm border-gray-700 bg-transparent text-[#d4af37] focus:ring-[#d4af37] focus:ring-offset-black"
                             />
-                            <label htmlFor="privacy" className="text-[10px] text-gray-500 text-left leading-tight cursor-pointer select-none">
-                                Acepto recibir comunicaciones de DTalles Jewelry. <br />
-                                Respetamos tu privacidad. Sin spam.
+                            <label htmlFor="privacy" className="text-[10px] text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:text-gray-300 transition-colors">
+                                Acepto la política de privacidad
                             </label>
                         </div>
                     </form>
                 </div>
 
                 {/* 2. Main Navigation Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-20 border-b border-[#d4af37]/10 pb-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-16 mb-24">
 
-                    {/* Col 1: Brand Identity */}
-                    <div className="flex flex-col items-start">
-                        {/* Logo Placeholder */}
-                        <a href={resolvePath('/')} className="mb-6 block">
+                    {/* Col 1: Brand & Social */}
+                    <div className="space-y-8">
+                        <a href={resolvePath('/')} className="block w-fit">
                             <img
                                 src={resolvePath('/images/Logo.webp')}
                                 alt="Dtalles Jewelry"
-                                className="h-24 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+                                className="h-16 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
                             />
                         </a>
-                        <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-xs font-light">
+                        <p className="text-gray-400 text-sm leading-relaxed max-w-xs font-light">
                             Elevando el estándar del oro en Miami. Joyería fina garantizada para los momentos que importan.
                         </p>
-                        {/* Social Icons */}
+
                         <div className="flex gap-6">
-                            <a href="#" aria-label="Síguenos en Instagram" className="text-[#FAFAF5] hover:text-[#d4af37] transition-transform hover:-translate-y-1 duration-300">
-                                <span className="material-symbols-outlined text-xl">thumb_up</span> {/* Placeholder for IG icon */}
-                            </a>
-                            <a href="#" aria-label="Síguenos en TikTok" className="text-[#FAFAF5] hover:text-[#d4af37] transition-transform hover:-translate-y-1 duration-300">
-                                <span className="material-symbols-outlined text-xl">play_circle</span> {/* Placeholder for TikTok */}
-                            </a>
-                            <a href="#" aria-label="Contáctanos por WhatsApp" className="text-[#FAFAF5] hover:text-[#d4af37] transition-transform hover:-translate-y-1 duration-300">
-                                <span className="material-symbols-outlined text-xl">chat</span> {/* Placeholder for WhatsApp */}
-                            </a>
+                            <SocialIcon href="https://www.instagram.com/dtalles_jewelry/" icon="photo_camera" label="Instagram" />
+                            <SocialIcon href="https://web.facebook.com/dtalles.jewelry" icon="thumb_up" label="Facebook" />
+                            <SocialIcon href="https://wa.me/17867644952" icon="chat" label="WhatsApp" />
+                            {/* Placeholder for future TikTok */}
+                            <SocialIcon href="#" icon="music_note" label="TikTok" />
                         </div>
                     </div>
 
-                    {/* Col 2: Collections (Accordion on Mobile) */}
+                    {/* Col 2: EXPLORAR (Shop) */}
                     <div>
-                        <button
-                            onClick={() => toggleSection('collections')}
-                            className="w-full flex justify-between items-center md:cursor-auto"
-                        >
-                            <h3 className="text-[#d4af37] font-serif text-base uppercase tracking-widest mb-4 md:mb-6">Colecciones</h3>
-                            <span className={`material-symbols-outlined md:!hidden text-[#d4af37] transition-transform ${openSection === 'collections' ? 'rotate-180' : ''}`}>expand_more</span>
-                        </button>
-
-                        <ul className={`space-y-3 overflow-hidden transition-all duration-300 md:max-h-full ${openSection === 'collections' ? 'max-h-96' : 'max-h-0'}`}>
-                            <li><a href={resolvePath('/hombre')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Para Él (10k & 14k)</a></li>
-                            <li><a href={resolvePath('/mujer')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Para Ella</a></li>
-                            <li><a href={resolvePath('/hombre/cuban-links')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Cuban Links</a></li>
-                            <li><a href={resolvePath('/coleccion/religiosa')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Religiosos</a></li>
-                            <li><a href={resolvePath('/servicios/vender-oro')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Vender Oro</a></li>
+                        <FooterHeading
+                            title="Explorar"
+                            isOpen={openSection === 'shop'}
+                            onClick={() => toggleSection('shop')}
+                        />
+                        <ul className={`space-y-4 overflow-hidden transition-all duration-500 ${openSection === 'shop' ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0 md:max-h-full md:opacity-100 md:mt-0'}`}>
+                            <FooterLink href={resolvePath('/coleccion/nuevo')} label="Lo Nuevo" isNew={true} />
+                            <FooterLink href={resolvePath('/coleccion/best-sellers')} label="Más Vendidos" />
+                            <FooterLink href={resolvePath('/mujer')} label="Joyería para Ella" />
+                            <FooterLink href={resolvePath('/hombre')} label="Joyería para Él" />
+                            <FooterLink href={resolvePath('/ninos')} label="Niños & Bebés" />
+                            <FooterLink href={resolvePath('/coleccion/religiosa')} label="Colección Religiosa" />
+                            <FooterLink href={resolvePath('/guia-regalos')} label="Guía de Regalos" />
                         </ul>
                     </div>
 
-                    {/* Col 3: Assistance (Accordion on Mobile) */}
+                    {/* Col 3: ATENCIÓN AL CLIENTE (Support) */}
                     <div>
-                        <button
-                            onClick={() => toggleSection('assistance')}
-                            className="w-full flex justify-between items-center md:cursor-auto"
-                        >
-                            <h3 className="text-[#d4af37] font-serif text-base uppercase tracking-widest mb-4 md:mb-6">Asistencia</h3>
-                            <span className={`material-symbols-outlined md:!hidden text-[#d4af37] transition-transform ${openSection === 'assistance' ? 'rotate-180' : ''}`}>expand_more</span>
-                        </button>
-
-                        <ul className={`space-y-1 overflow-hidden transition-all duration-300 md:max-h-full ${openSection === 'assistance' ? 'max-h-96' : 'max-h-0'}`}>
-                            <li><a href={resolvePath('/rastrear-orden')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Rastrear mi Orden</a></li>
-                            <li><a href={resolvePath('/guia-tallas')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Guía de Tallas</a></li>
-                            <li><a href={resolvePath('/devoluciones')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Política de Devolución</a></li>
-                            <li><a href={resolvePath('/garantia')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Garantía de Por Vida</a></li>
-                            <li><a href={resolvePath('/faq')} className="text-gray-300 hover:text-[#d4af37] hover:pl-2 transition-all duration-300 text-sm font-light block py-2">Preguntas Frecuentes</a></li>
+                        <FooterHeading
+                            title="Atención al Cliente"
+                            isOpen={openSection === 'support'}
+                            onClick={() => toggleSection('support')}
+                        />
+                        <ul className={`space-y-4 overflow-hidden transition-all duration-500 ${openSection === 'support' ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0 md:max-h-full md:opacity-100 md:mt-0'}`}>
+                            <FooterLink href={resolvePath('/rastrear')} label="Rastrear mi Orden" highlight={true} />
+                            <FooterLink href={resolvePath('/envios')} label="Envíos y Entregas" />
+                            <FooterLink href={resolvePath('/devoluciones')} label="Cambios y Devoluciones" />
+                            <FooterLink href={resolvePath('/garantia')} label="Garantía de Por Vida" />
+                            <FooterLink href={resolvePath('/guia-tallas')} label="Guía de Tallas" />
+                            <FooterLink href={resolvePath('/cuidado-joyas')} label="Cuidado de tus Joyas" />
+                            <FooterLink href={resolvePath('/faq')} label="Preguntas Frecuentes" />
                         </ul>
                     </div>
 
-                    {/* Col 4: Contact (Accordion on Mobile for consistency) */}
+                    {/* Col 4: DTALLES WORLD (Company) */}
                     <div>
-                        <button
-                            onClick={() => toggleSection('contact')}
-                            className="w-full flex justify-between items-center md:cursor-auto"
-                        >
-                            <h3 className="text-[#d4af37] font-serif text-base uppercase tracking-widest mb-4 md:mb-6">Visítanos</h3>
-                            <span className={`material-symbols-outlined md:!hidden text-[#d4af37] transition-transform ${openSection === 'contact' ? 'rotate-180' : ''}`}>expand_more</span>
-                        </button>
-
-                        <ul className={`space-y-4 overflow-hidden transition-all duration-300 md:max-h-full ${openSection === 'contact' ? 'max-h-96' : 'max-h-0'}`}>
-                            <li className="flex items-start gap-4 py-2">
-                                <span className="material-symbols-outlined text-[#d4af37] mt-1 text-lg">location_on</span>
-                                <a href="https://maps.google.com/?q=Miami,FL" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#d4af37] transition-colors text-sm font-light leading-relaxed block">
-                                    123 Jewelry Way,<br />Miami, FL 33132
-                                </a>
-                            </li>
-                            <li className="flex items-center gap-4 py-2">
-                                <span className="material-symbols-outlined text-[#d4af37] text-lg">call</span>
-                                <a href="tel:+13051234567" className="text-gray-300 hover:text-[#d4af37] transition-colors text-sm font-light block">
-                                    (305) 123-4567
-                                </a>
-                            </li>
-                            <li className="flex items-start gap-4 py-2">
-                                <span className="material-symbols-outlined text-[#d4af37] mt-1 text-lg">schedule</span>
-                                <span className="text-gray-300 text-sm font-light leading-relaxed block">
-                                    Lunes a Sábado<br />10:00am - 7:00pm
-                                </span>
+                        <FooterHeading
+                            title="Mundo DTalles"
+                            isOpen={openSection === 'company'}
+                            onClick={() => toggleSection('company')}
+                        />
+                        <ul className={`space-y-4 overflow-hidden transition-all duration-500 ${openSection === 'company' ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0 md:max-h-full md:opacity-100 md:mt-0'}`}>
+                            <FooterLink href={resolvePath('/nosotros')} label="Nuestra Historia" />
+                            <FooterLink href={resolvePath('/servicios/vender-oro')} label="Vender Oro" highlight={true} />
+                            <FooterLink href={resolvePath('/blog')} label="El Blog de Joyería" />
+                            <FooterLink href={resolvePath('/contacto')} label="Contáctanos" />
+                            <li className="pt-4 border-t border-white/5 mt-4">
+                                <p className="text-[#d4af37] text-xs font-bold uppercase tracking-widest mb-2">Showroom Miami</p>
+                                <p className="text-gray-400 text-sm font-light">
+                                    3949 NW 7th St d<br />
+                                    Miami, FL 33126
+                                </p>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                {/* 3. Bottom Bar */}
-                <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-gray-500 uppercase tracking-widest">
-                    {/* Copyright */}
-                    <div className="order-2 md:order-1">
-                        &copy; {currentYear} Dtalles Jewelry. Todos los derechos reservados.
+                {/* 3. Bottom Bar (Legal & Payments) */}
+                <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-10 border-t border-[#d4af37]/10">
+                    <div className="flex flex-wrap justify-center gap-8 text-[11px] text-gray-500 uppercase tracking-widest font-medium">
+                        <span>&copy; {currentYear} Dtalles Jewelry</span>
+                        <a href={resolvePath('/politicas')} className="hover:text-white transition-colors">Privacidad</a>
+                        <a href={resolvePath('/terminos')} className="hover:text-white transition-colors">Términos</a>
+                        <a href={resolvePath('/accesibilidad')} className="hover:text-white transition-colors">Accesibilidad</a>
                     </div>
 
-                    {/* Legal Links */}
-                    <div className="flex gap-6 order-1 md:order-2">
-                        <a href={resolvePath('/legal/terms')} className="hover:text-[#d4af37] transition-colors">Términos</a>
-                        <a href={resolvePath('/legal/privacy')} className="hover:text-[#d4af37] transition-colors">Privacidad</a>
-                        <a href={resolvePath('/legal/accessibility')} className="hover:text-[#d4af37] transition-colors">Accesibilidad</a>
-                    </div>
-
-                    {/* Payment Icons (Text for now to keep it sterile/fast, or SVGs) */}
-                    <div className="flex gap-3 order-3 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                        {/* Simple CSS placeholders for payment icons to keep it performant */}
-                        <div className="w-8 h-5 border border-gray-700 rounded flex items-center justify-center text-[6px]">VISA</div>
-                        <div className="w-8 h-5 border border-gray-700 rounded flex items-center justify-center text-[6px]">MC</div>
-                        <div className="w-8 h-5 border border-gray-700 rounded flex items-center justify-center text-[6px]">AMEX</div>
-                        <div className="w-8 h-5 border border-gray-700 rounded flex items-center justify-center text-[6px]">PAYPAL</div>
+                    {/* Payment Icons */}
+                    <div className="flex gap-3 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                        {/* Using text for performance, can replace with SVGs */}
+                        <div className="h-6 px-2 border border-white/10 rounded flex items-center justify-center bg-white/5 text-[8px] text-white">VISA</div>
+                        <div className="h-6 px-2 border border-white/10 rounded flex items-center justify-center bg-white/5 text-[8px] text-white">MASTERCARD</div>
+                        <div className="h-6 px-2 border border-white/10 rounded flex items-center justify-center bg-white/5 text-[8px] text-white">AMEX</div>
+                        <div className="h-6 px-2 border border-white/10 rounded flex items-center justify-center bg-white/5 text-[8px] text-white">PAYPAL</div>
+                        <div className="h-6 px-2 border border-white/10 rounded flex items-center justify-center bg-white/5 text-[8px] text-white">AFFIRM</div>
                     </div>
                 </div>
             </div>
         </footer>
+    );
+}
+
+// ----------------------------------------------------------------------
+// HELPER COMPONENTS
+// ----------------------------------------------------------------------
+
+function FooterHeading({ title, isOpen, onClick }: { title: string, isOpen: boolean, onClick: () => void }) {
+    return (
+        <button
+            onClick={onClick}
+            className="w-full flex justify-between items-center md:cursor-default group"
+        >
+            <h3 className="text-[#d4af37] font-serif text-lg tracking-wide">{title}</h3>
+            <span className={`material-symbols-outlined text-[#d4af37] md:hidden transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                expand_more
+            </span>
+        </button>
+    );
+}
+
+function FooterLink({ href, label, isNew, highlight }: { href: string, label: string, isNew?: boolean, highlight?: boolean }) {
+    return (
+        <li>
+            <a
+                href={href}
+                className={`
+                    group flex items-center gap-2 text-sm font-light transition-all duration-300 transform hover:translate-x-2
+                    ${highlight ? 'text-white font-medium' : 'text-gray-400 hover:text-[#d4af37]'}
+                `}
+            >
+                {highlight && <span className="w-1 h-1 rounded-full bg-[#d4af37]"></span>}
+                {label}
+                {isNew && (
+                    <span className="text-[9px] font-bold text-black bg-[#d4af37] px-1.5 py-0.5 rounded ml-2">NEW</span>
+                )}
+            </a>
+        </li>
+    );
+}
+
+function SocialIcon({ href, icon, label }: { href: string, icon: string, label: string }) {
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-[#050505] hover:bg-[#d4af37] hover:border-[#d4af37] transition-all duration-300 group"
+            aria-label={label}
+        >
+            <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">{icon}</span>
+        </a>
     );
 }

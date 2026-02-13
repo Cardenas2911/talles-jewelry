@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { addCartItem, setIsCartOpen } from '../../../store/cart';
+import TrustBadges from './TrustBadges';
+import ReviewSnippet from './ReviewSnippet';
+import StickyAddToCart from './StickyAddToCart';
 
 interface Variant {
     id: string;
@@ -28,10 +31,12 @@ interface ProductInfoProps {
                 currencyCode: string;
             };
         };
-        options?: { // Using the raw variants to build options logic manually if needed, or if passed
+        pesoReal?: { value: string };
+        options?: {
             name: string;
             values: string[];
         }[];
+        featuredImage?: { url: string }; // Added to pass image to Sticky
     };
     variants: Variant[];
     selectedVariant: Variant;
@@ -42,12 +47,7 @@ export default function ProductInfo({ product, variants, selectedVariant, onVari
     const [adding, setAdding] = useState(false);
 
     // Group variants by options (e.g. Size).
-    // Assuming simple structure for now: Single option like "Size" or "Length".
-    // If multiple options, logic needs to be more complex (Cartesian product).
-    // Let's assume the first option is the main one for buttons (e.g. "Size").
     const optionName = selectedVariant.selectedOptions[0]?.name || 'Talla';
-
-    // Get unique values for this option
     const uniqueOptionValues = Array.from(new Set(variants.map(v => v.selectedOptions[0]?.value))).filter(Boolean);
 
     const handleAddToCart = () => {
@@ -56,11 +56,7 @@ export default function ProductInfo({ product, variants, selectedVariant, onVari
             id: selectedVariant.id,
             title: product.title,
             price: parseFloat(selectedVariant.price.amount),
-            image: '', // Needs to be passed or handled, but cart stores it. Gallery handles images but addCartItem needs one. 
-            // We'll pass empty for now and let the cart logic or Parent handle it? 
-            // Actually `addCartItem` needs image. Let's ask Parent to pass it or just use a placeholder/first image logic here if available?
-            // Better: Component should receive `featuredImage` prop.
-            // For now, I'll update the interface in next step if broken, or let Cart handle fallback.
+            image: product.featuredImage?.url || '',
             handle: product.handle,
             variantTitle: selectedVariant.title,
             quantity: 1
@@ -75,97 +71,112 @@ export default function ProductInfo({ product, variants, selectedVariant, onVari
     const isSoldOut = !selectedVariant.availableForSale || (selectedVariant.quantityAvailable !== undefined && selectedVariant.quantityAvailable <= 0);
 
     return (
-        <div className="lg:sticky lg:top-24 flex flex-col gap-6">
-            {/* Header */}
-            <div>
-                <span className="text-[#d4af37] text-xs font-bold uppercase tracking-[2px] mb-2 block">
-                    {product.vendor || 'DTalles Gold Collection'}
-                </span>
-                <h1 className="main-heading text-left mb-4">
-                    {product.title} <span className="text-2xl md:text-3xl block md:inline font-light text-white/80">- Oro 14k Garantizado</span>
-                </h1>
-
-                <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-2xl md:text-3xl font-light text-white">
-                        ${price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+        <>
+            <div className="lg:sticky lg:top-24 flex flex-col gap-6">
+                {/* Header */}
+                <div>
+                    {/* Vendor */}
+                    <span className="text-[#d4af37] text-xs font-bold uppercase tracking-[2px] mb-2 block animate-fade-in">
+                        {product.vendor || 'DTalles Gold Collection'}
                     </span>
-                    {/* Compare At Price logic if needed */}
+
+                    {/* Title */}
+                    <h1 className="text-3xl md:text-5xl font-serif text-white mb-2 leading-tight">
+                        {product.title}
+                    </h1>
+
+                    {/* Price Row */}
+                    <div className="flex items-baseline gap-4 mb-4">
+                        <span className="text-2xl md:text-3xl font-light text-[#d4af37]">
+                            ${price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                        </span>
+                        {product.pesoReal?.value && (
+                            <span className="text-xs text-gray-500 font-mono">
+                                ~${(price / parseFloat(product.pesoReal.value)).toLocaleString('en-US', { maximumFractionDigits: 0 })}/gr
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Trust Badges - NEW */}
+                    <TrustBadges />
+
+                    {/* Review Snippet - NEW */}
+                    <ReviewSnippet />
+
+                    {/* Stock Urgency */}
+                    {selectedVariant.quantityAvailable !== undefined && selectedVariant.quantityAvailable > 0 && selectedVariant.quantityAvailable < 5 && (
+                        <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold text-[#d4af37] bg-[#d4af37]/10 px-3 py-1.5 rounded-full animate-pulse-slow">
+                            <span className="w-2 h-2 rounded-full bg-[#d4af37]"></span>
+                            Solo quedan {selectedVariant.quantityAvailable} piezas
+                        </div>
+                    )}
                 </div>
 
-                {/* Affirm / Financing */}
-                <div className="flex items-center gap-2 text-xs md:text-sm text-gray-400 font-light">
-                    <span>o paga 4 cuotas de <strong>${(price / 4).toLocaleString('en-US', { maximumFractionDigits: 0 })}</strong> con</span>
+                {/* Variant Selector */}
+                {uniqueOptionValues.length > 0 && uniqueOptionValues[0] !== 'Default Title' && (
+                    <div>
+                        <span className="text-gray-400 text-xs uppercase tracking-widest mb-3 block">
+                            Selecciona {optionName}: <span className="text-white font-bold">{selectedVariant.selectedOptions[0]?.value}</span>
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                            {uniqueOptionValues.map(value => {
+                                const variant = variants.find(v => v.selectedOptions[0]?.value === value);
+                                const available = variant?.availableForSale;
+                                const isSelected = selectedVariant.selectedOptions[0]?.value === value;
+
+                                return (
+                                    <button
+                                        key={value}
+                                        onClick={() => variant && onVariantChange(variant)}
+                                        className={`w-12 h-12 rounded-full flex items-center justify-center border text-sm font-medium transition-all relative ${isSelected
+                                            ? 'border-[#d4af37] bg-[#d4af37] text-black shadow-[0_0_15px_rgba(212,175,55,0.4)]'
+                                            : 'border-white/20 text-gray-400 hover:border-white/60 hover:text-white'
+                                            } ${!available ? 'opacity-50 cursor-not-allowed line-through decoration-white/50' : ''}`}
+                                    >
+                                        {value}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {/* Main CTA */}
+                <div className="pt-4">
+                    <button
+                        id="main-add-to-cart"
+                        onClick={handleAddToCart}
+                        disabled={isSoldOut || adding}
+                        className={`w-full py-5 uppercase font-bold tracking-[2px] transition-all flex items-center justify-center gap-3 ${isSoldOut
+                            ? 'bg-gray-800 text-gray-400 cursor-not-allowed border border-transparent'
+                            : 'bg-[#d4af37] text-black border border-[#d4af37] hover:bg-white hover:border-white shadow-[0_0_20px_rgba(212,175,55,0.2)]'
+                            }`}
+                    >
+                        {adding ? (
+                            <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+                        ) : isSoldOut ? (
+                            'Agotado - Avísame'
+                        ) : (
+                            'Agregar a la Bolsa'
+                        )}
+                    </button>
+                </div>
+
+                {/* Affirm info moved to bottom */}
+                <div className="flex items-center justify-center gap-2 text-xs text-gray-500 font-light mt-2">
+                    <span>Paga en cuotas con</span>
                     <span className="font-bold text-white">Affirm</span>
                 </div>
             </div>
 
-            {/* Variant Selector (Buttons) */}
-            {uniqueOptionValues.length > 0 && uniqueOptionValues[0] !== 'Default Title' && (
-                <div>
-                    <span className="text-gray-400 text-xs uppercase tracking-widest mb-3 block">
-                        Selecciona {optionName}: <span className="text-white font-bold">{selectedVariant.selectedOptions[0]?.value}</span>
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                        {uniqueOptionValues.map(value => {
-                            // Find variant for this value
-                            const variant = variants.find(v => v.selectedOptions[0]?.value === value);
-                            const available = variant?.availableForSale;
-                            const isSelected = selectedVariant.selectedOptions[0]?.value === value;
-
-                            return (
-                                <button
-                                    key={value}
-                                    onClick={() => variant && onVariantChange(variant)}
-                                    // disabled={!available} // Don't disable, allow selection to see "Out of Stock" message? 
-                                    // User said: "Si una talla está agotada, tacharla visualmente pero permitir dejar el email"
-                                    className={`px-4 py-3 min-w-[3.5rem] border text-sm font-medium transition-all relative ${isSelected
-                                        ? 'border-[#d4af37] bg-[#d4af37]/10 text-[#d4af37]'
-                                        : 'border-white/20 text-gray-400 hover:border-white/40'
-                                        } ${!available ? 'opacity-50 cursor-not-allowed line-through decoration-white/50' : ''}`}
-                                >
-                                    {value}
-                                </button>
-                            )
-                        })}
-                    </div>
-                </div>
-            )}
-
-            {/* CTA */}
-            <div className="pt-4">
-                <button
-                    onClick={handleAddToCart}
-                    disabled={isSoldOut || adding}
-                    className={`w-full py-4 uppercase font-bold tracking-[2px] transition-all flex items-center justify-center gap-3 ${isSoldOut
-                        ? 'bg-gray-800 text-gray-400 cursor-not-allowed border border-transparent'
-                        : 'bg-[#d4af37] text-black border border-[#d4af37] hover:bg-white hover:border-white shadow-[0_0_20px_rgba(212,175,55,0.2)]'
-                        }`}
-                >
-                    {adding ? (
-                        <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
-                    ) : isSoldOut ? (
-                        'Agotado - Avísame'
-                    ) : (
-                        'Agregar a la Bolsa'
-                    )}
-                </button>
-
-                {/* Trust Microcopy */}
-                <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-white/5">
-                    <div className="flex flex-col items-center gap-1 text-center">
-                        <span className="material-symbols-outlined text-[#d4af37] text-lg">lock</span>
-                        <span className="text-[9px] uppercase tracking-wider text-gray-500">Envío Asegurado</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1 text-center">
-                        <span className="material-symbols-outlined text-[#d4af37] text-lg">verified</span>
-                        <span className="text-[9px] uppercase tracking-wider text-gray-500">Oro Garantizado</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1 text-center">
-                        <span className="material-symbols-outlined text-[#d4af37] text-lg">refresh</span>
-                        <span className="text-[9px] uppercase tracking-wider text-gray-500">Devoluciones 30 Días</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+            {/* Sticky Add to Cart (Island) */}
+            <StickyAddToCart
+                productTitle={product.title}
+                price={price}
+                image={product.featuredImage?.url || ''}
+                isSoldOut={isSoldOut}
+                onAddToCart={handleAddToCart}
+            />
+        </>
     );
 }

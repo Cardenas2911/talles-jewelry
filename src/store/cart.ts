@@ -1,4 +1,5 @@
-import { map, atom } from 'nanostores';
+import { atom } from 'nanostores';
+import { persistentAtom } from '@nanostores/persistent';
 
 export interface CartItem {
     id: string;
@@ -11,7 +12,12 @@ export interface CartItem {
 }
 
 export const isCartOpen = atom(false);
-export const cartItems = map<Record<string, CartItem>>({});
+
+// Use persistentAtom to save cart state to localStorage
+export const cartItems = persistentAtom<Record<string, CartItem>>('cartItems', {}, {
+    encode: JSON.stringify,
+    decode: JSON.parse,
+});
 
 export function setIsCartOpen(isOpen: boolean) {
     isCartOpen.set(isOpen);
@@ -22,12 +28,18 @@ export function addCartItem(item: CartItem) {
     const existingItem = existingItems[item.id];
 
     if (existingItem) {
-        cartItems.setKey(item.id, {
-            ...existingItem,
-            quantity: existingItem.quantity + item.quantity,
+        cartItems.set({
+            ...existingItems,
+            [item.id]: {
+                ...existingItem,
+                quantity: existingItem.quantity + item.quantity,
+            }
         });
     } else {
-        cartItems.setKey(item.id, item);
+        cartItems.set({
+            ...existingItems,
+            [item.id]: item
+        });
     }
     setIsCartOpen(true);
 }
@@ -46,9 +58,12 @@ export function updateCartItemQuantity(itemId: string, quantity: number) {
         if (quantity <= 0) {
             removeCartItem(itemId);
         } else {
-            cartItems.setKey(itemId, {
-                ...existingItem,
-                quantity,
+            cartItems.set({
+                ...existingItems,
+                [itemId]: {
+                    ...existingItem,
+                    quantity,
+                }
             });
         }
     }

@@ -88,7 +88,10 @@ const SHOP_DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
     const favCountHeader = document.getElementById("favorites-count-header");
 
     // Subscribe to Nanostore
-    favoriteItems.subscribe((items) => {
+    // Clean up previous subscription if exists
+    if (window._unsubscribeFavorites) window._unsubscribeFavorites();
+    
+    window._unsubscribeFavorites = favoriteItems.subscribe((items) => {
       const count = Object.keys(items).length;
 
       if (favCountHeader) {
@@ -175,19 +178,10 @@ const SHOP_DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
     });
 
     // Update Cart Count
-    // Store subscription should stick across navigations, but we need to update the *new* DOM element
-    // Nanostores subscribe returns an unsubscribe function. We should probably accept that we might have multiple subscriptions if we don't clean up,
-    // OR we can just re-run the logic to update the *current* element.
-    // Better: simply update the element text when the store changes.
-    // The subscription keeps running.
+    // Clean up previous subscription
+    if (window._unsubscribeCart) window._unsubscribeCart();
 
-    // We need to unsubscribe when the component unmounts? Astro doesn't have a clean unmount for this easily in vanilla script.
-    // However, since we are inside astro:page-load, this runs every time.
-    // Let's use a pattern to avoid memory leaks if possible, but for this specific issue (DOM connection), simply re-subscribing
-    // might create duplicate listeners but updating the *current* ID reference.
-
-    // Actually, `cartCount` variable is scoped to this execution.
-    const unsubscribeCart = cartItems.subscribe((items) => {
+    window._unsubscribeCart = cartItems.subscribe((items) => {
       const totalCount = Object.values(items).reduce(
         (acc, item) => acc + item.quantity,
         0,

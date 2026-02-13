@@ -42,6 +42,7 @@ export async function getStaticPaths() {
                 node {
                   id
                   title
+                  sku
                   availableForSale
                   quantityAvailable
                   price {
@@ -68,13 +69,143 @@ export async function getStaticPaths() {
               value
               type
             }
-            origen: metafield(namespace: "custom", key: "origen") {
+            shopifyColor: metafield(namespace: "shopify", key: "color-pattern") {
               value
-              type
+              reference {
+                ... on Metaobject {
+                  fields {
+                    key
+                    value
+                  }
+                }
+              }
+              references(first: 10) {
+                nodes {
+                  ... on Metaobject {
+                    fields {
+                      key
+                      value
+                    }
+                  }
+                }
+              }
+            }
+            shopifyAgeGroup: metafield(namespace: "shopify", key: "age-group") {
+              value
+              reference {
+                ... on Metaobject {
+                  fields {
+                    key
+                    value
+                  }
+                }
+              }
+              references(first: 10) {
+                nodes {
+                  ... on Metaobject {
+                    fields {
+                      key
+                      value
+                    }
+                  }
+                }
+              }
+            }
+            shopifyGender: metafield(namespace: "shopify", key: "target-gender") {
+              value
+              reference {
+                ... on Metaobject {
+                  fields {
+                    key
+                    value
+                  }
+                }
+              }
+              references(first: 10) {
+                nodes {
+                  ... on Metaobject {
+                    fields {
+                      key
+                      value
+                    }
+                  }
+                }
+              }
+            }
+            shopifyMaterial: metafield(namespace: "shopify", key: "jewelry-material") {
+              value
+              reference {
+                ... on Metaobject {
+                  fields {
+                    key
+                    value
+                  }
+                }
+              }
+              references(first: 10) {
+                nodes {
+                  ... on Metaobject {
+                    fields {
+                      key
+                      value
+                    }
+                  }
+                }
+              }
+            }
+            shopifyJewelryType: metafield(namespace: "shopify", key: "jewelry-type") {
+              value
+              reference {
+                ... on Metaobject {
+                  fields {
+                    key
+                    value
+                  }
+                }
+              }
+              references(first: 10) {
+                nodes {
+                  ... on Metaobject {
+                    fields {
+                      key
+                      value
+                    }
+                  }
+                }
+              }
+            }
+            shopifyNecklaceDesign: metafield(namespace: "shopify", key: "necklace-design") {
+              value
+              reference {
+                ... on Metaobject {
+                  fields {
+                    key
+                    value
+                  }
+                }
+              }
+              references(first: 10) {
+                nodes {
+                  ... on Metaobject {
+                    fields {
+                      key
+                      value
+                    }
+                  }
+                }
+              }
             }
             videoUrl: metafield(namespace: "custom", key: "video_url") {
               value
               type
+            }
+            collections(first: 5) {
+              edges {
+                node {
+                  title
+                  handle
+                }
+              }
             }
           }
         }
@@ -113,44 +244,64 @@ const seoDescription =
   product.description?.substring(0, 160) ||
   `Compra ${product.title} en DTalles. Oro Garantizado.`;
 const mainImage = product.images?.edges[0]?.node?.url;
+const currency = product.priceRange.minVariantPrice.currencyCode || "USD";
+const price = product.priceRange.minVariantPrice.amount;
+const sku = product.variants?.edges[0]?.node?.sku || product.variants?.edges[0]?.node?.id;
 
 const schema: any = {
   "@context": "https://schema.org/",
   "@type": "Product",
   name: product.title,
   image: product.images?.edges.map((e: any) => e.node.url),
-  description: product.description,
-  sku: product.variants?.edges[0]?.node?.id, // Using Variant ID as SKU proxy logic
+  description: product.description?.replace(/<[^>]*>?/gm, "") || seoDescription,
+  sku: sku,
   brand: {
     "@type": "Brand",
     name: "DTalles Jewelry",
   },
+  material: product.material?.value,
   offers: {
     "@type": "Offer",
     url: `https://dtallesjewelry.com/producto/${product.handle}`,
-    priceCurrency: "USD",
-    price: product.priceRange.minVariantPrice.amount,
+    priceCurrency: currency,
+    price: price,
     availability: product.availableForSale
       ? "https://schema.org/InStock"
       : "https://schema.org/OutOfStock",
     itemCondition: "https://schema.org/NewCondition",
-  },
-  merchantReturnPolicy: {
-    "@type": "MerchantReturnPolicy",
-    applicableCountry: "US",
-    returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
-    merchantReturnDays: 30,
-    returnMethod: "https://schema.org/ReturnByMail",
-  },
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      applicableCountry: "US",
+      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+      merchantReturnDays: 30,
+      returnMethod: "https://schema.org/ReturnByMail"
+    }
+  }
 };
+
+if (product.pesoReal?.value) {
+    schema["weight"] = {
+        "@type": "QuantitativeValue",
+        value: product.pesoReal.value,
+        unitCode: "GRM"
+    };
+}
+
+if (product.anchoMm?.value) {
+    schema["width"] = {
+        "@type": "QuantitativeValue",
+        value: product.anchoMm.value,
+        unitCode: "MMT"
+    };
+}
 
 // Add VideoObject if videoUrl exists
 if (product.videoUrl?.value) {
   schema["subjectOf"] = {
     "@type": "VideoObject",
-    name: `Video de ${product.title}`,
-    description: `Vista detallada de ${product.title}`,
-    thumbnailUrl: mainImage, // Fallback
+    name: `Detalle real de ${product.title}`,
+    description: `Vista detallada en video de ${product.title}`,
+    thumbnailUrl: mainImage,
     contentUrl: product.videoUrl.value,
     uploadDate: new Date().toISOString(),
   };

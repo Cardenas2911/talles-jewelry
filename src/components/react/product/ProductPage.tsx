@@ -13,13 +13,79 @@ export default function ProductPage({ product }: ProductPageProps) {
     // Default to first variant
     const [selectedVariant, setSelectedVariant] = useState(variants[0]);
 
+    // Helper to extract human-readable value from metaobject or simple field
+    const getMetafieldValue = (field: any) => {
+        if (!field) return undefined;
+
+        // Function that extracts label/name from a single metaobject node
+        const extractFromNode = (node: any) => {
+            if (node && node.fields) {
+                const labelField = node.fields.find((f: any) => f.key === 'label' || f.key === 'name');
+                if (labelField) return labelField.value;
+                if (node.fields.length > 0) return node.fields[0].value;
+            }
+            return null;
+        };
+
+        // Case 1: Single Reference (Metaobject)
+        if (field.reference) {
+            const val = extractFromNode(field.reference);
+            if (val) return val;
+        }
+
+        // Case 2: Multiple References (List of Metaobjects)
+        if (field.references && field.references.nodes && field.references.nodes.length > 0) {
+            const values = field.references.nodes.map(extractFromNode).filter(Boolean);
+            if (values.length > 0) return values.join(', ');
+        }
+
+        // Case 3: Parse JSON String (often GID lists are stored as JSON strings if raw)
+        if (field.value && (field.value.startsWith('[') || field.value.startsWith('{'))) {
+            try {
+                const parsed = JSON.parse(field.value);
+                if (Array.isArray(parsed)) return parsed.join(', ');
+            } catch (e) {
+                // ignore
+            }
+        }
+
+        // Fallback: If it's a GID string (starts with gid://), return generic fallback or empty
+        // We don't want to show raw GIDs to the user
+        if (typeof field.value === 'string' && field.value.startsWith('gid://')) {
+            return undefined;
+        }
+
+        return field.value;
+    };
+
     // Prepare details object from metafields
+    // Taxonomía Check: Priority to specific jewelry fields (Shopify Namespace), fallback to generic
+
+    // Extract values using helper
+    const mat = getMetafieldValue(product.shopifyMaterial) || getMetafieldValue(product.material);
+    const col = getMetafieldValue(product.shopifyColor);
+    const age = getMetafieldValue(product.shopifyAgeGroup);
+    const gen = getMetafieldValue(product.shopifyGender);
+    const des = getMetafieldValue(product.shopifyNecklaceDesign);
+    const typ = getMetafieldValue(product.shopifyJewelryType);
+
     const details = {
-        material: product.material?.value,
+        material: mat,
         weight: product.pesoReal?.value,
         width: product.anchoMm?.value,
-        origin: product.origen?.value,
-        descriptionHtml: product.descriptionHtml
+        descriptionHtml: product.descriptionHtml,
+        // Requested Fields from Taxonomy:
+        vendor: product.vendor,
+        tags: product.tags,
+        // Try productCategory, then category, then new jewelryType, then productType
+        productType: product.productCategory?.productTaxonomyNode?.name || product.category?.name || typ || product.productType,
+        collections: product.collections?.edges?.map((e: any) => e.node.title),
+
+        // New specific taxonomy fields
+        color: col,
+        ageGroup: age,
+        gender: gen,
+        design: des
     };
 
     // Images conversion
@@ -42,7 +108,7 @@ export default function ProductPage({ product }: ProductPageProps) {
                 {/* Right Col: Info (Buy Box) */}
                 <div className="mt-8 lg:mt-0 px-4 lg:px-0">
                     <ProductInfo
-                        product={product}
+                        product={{ ...product, featuredImage: { url: featuredImage } }}
                         variants={variants}
                         selectedVariant={selectedVariant}
                         onVariantChange={setSelectedVariant}
@@ -55,12 +121,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                 <ProductDetails details={details} />
             </div>
 
-            {/* Mobile Sticky Bar */}
-            <StickyBottomBar
-                product={product}
-                selectedVariant={selectedVariant}
-                featuredImage={featuredImage}
-            />
+            {/* Mobile Sticky Bar - REMOVED (Now handled internally by ProductInfo -> StickyAddToCart) */}
+            {/* <StickyBottomBar ... /> */}
         </div>
     );
 }

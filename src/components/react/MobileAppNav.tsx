@@ -216,9 +216,9 @@ export default function MobileAppNav() {
                             <span className="material-symbols-outlined text-sm">local_shipping</span>
                             Rastrear Pedido
                         </a>
-                        <a href="https://wa.me/123456789" className="flex items-center gap-3 text-xs text-[#A0A0A0] uppercase tracking-widest hover:text-white">
+                        <a href="https://wa.me/17867644952" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-xs text-[#A0A0A0] uppercase tracking-widest hover:text-white">
                             <span className="material-symbols-outlined text-sm">chat</span>
-                            WhatsApp Oficial
+                            WhatsApp: +1 (786) 764-4952
                         </a>
                         <a href={resolvePath('/servicios/vender-oro')} className="flex items-center gap-3 text-xs text-[#d4af37] uppercase tracking-widest font-bold">
                             <span className="material-symbols-outlined text-sm">currency_exchange</span>
